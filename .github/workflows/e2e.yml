@@ -7,11 +7,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 📦 Checkout Playwright tests repo (current repo)
       - name: Checkout Playwright tests
         uses: actions/checkout@v3
 
-      # 📁 Checkout Angular app from separate public repo
       - name: Checkout Angular app
         uses: actions/checkout@v3
         with:
@@ -19,28 +17,22 @@ jobs:
           path: angular-app
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 🔧 Clean install with legacy peer deps to handle known conflicts
       - name: Install Angular dependencies (clean install)
         working-directory: angular-app
         run: npm ci --legacy-peer-deps
 
-      # 🚀 Start Angular stub app
-      - name: Start Angular app
-        working-directory: angular-app
-        run: npm start &
-
-      # ⏳ Wait for app to be responsive on localhost:4200
-      - name: Wait for Angular app to be ready
+      - name: Start Angular app and wait for it to be ready
         run: |
-          for i in {1..5}; do
-            curl -s http://localhost:4200 > /dev/null && echo "Angular app is ready" && break
-            echo "Waiting for Angular app (attempt $i)..."
-            sleep 5
-          done
+          npm install -g wait-on
+          cd angular-app
+          npm start &
+          npx wait-on http://localhost:4200
 
-      # 🧪 Install Playwright and run tests
       - name: Install Playwright dependencies
         run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install
 
       - name: Run Playwright tests
         run: npx playwright test
