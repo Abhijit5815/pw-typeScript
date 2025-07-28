@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-
+import { test, TestOptions } from './test-options'; // Import the custom test with options
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -11,7 +11,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<TestOptions>({
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -26,17 +26,46 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://localhost:3000',
+     baseURL: 'http://localhost:4200',
+     autowaiturl: 'http://uitestingplayground.com/ajax', // Default value for autowaiturl, can be overridden in tests
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    //video:'on', // record video for each test
+    video:{
+      mode: 'retain-on-failure', // record video only for failed tests
+      size: { width: 1920, height: 1080 }, // set video size
+    },
+    screenshot: 'only-on-failure', // take screenshot only on failure
+    //headless: false, // run tests in headful mode
+    viewport: { width: 1280, height: 720 }, // set viewport
+    //ignoreHTTPSErrors: true, // ignore HTTPS errors
+    //locale: 'en-US', // set locale
+    //timezoneId: 'America/New_York', // set timezone
   },
 
   /* Configure projects for major browsers */
   projects: [
+
+
+    {
+      name: 'Dev',
+      use: { ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:4200', // Override base URL for this project
+        //video: { mode: 'retain-on-failure' }, // record video only for failed tests
+        //screenshot: { mode: 'only-on-failure' }, // take screenshot only on failure
+        //headless: false, // run tests in headful mode
+        //viewport: { width: 1280, height: 720 }, // set viewport
+        //ignoreHTTPSErrors: true, // ignore HTTPS errors
+        //locale: 'en-US', // set locale
+        //timezoneId: 'America/New_York', // set timezone
+       },
+      //fullyParallel: true, // run tests in parallel in this project only
+    },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      //fullyParallel: true, // run tests in parallel in this project only
     },
 
     {

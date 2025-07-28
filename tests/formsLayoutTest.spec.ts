@@ -23,7 +23,8 @@ test.describe('Forms Layout Page Tests', () => {
 
     test('set theme', async ({ page }) => {
         const pm = new PageManager(page);
-        await pm.homepage().setThemeDropdown(HomePageLocators.DarkTheme); // Set the theme to Light
+        await pm.homepage().setThemeDropdown(HomePageLocators.DarkTheme);
+         // Set the theme to Light
     })
 
     test('Fill using the rid form', async ({ page },testInfo) => {

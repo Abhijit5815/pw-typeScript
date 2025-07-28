@@ -1,10 +1,10 @@
-import { test ,expect} from '@playwright/test';
+import { expect} from '@playwright/test';
+import { test } from '../../test-options.ts'// Import the custom test with options
 
 //()=> arrow function
-test.beforeEach(async ({ page },testInfo) => {
+test.beforeEach(async ({ page,autowaiturl },testInfo) => {
     //before each test, this will run
-    await page.goto('http://uitestingplayground.com/ajax')
-
+    await page.goto(autowaiturl) //navigate to the autowaiturl defined in playwright.config.ts
     testInfo.setTimeout(testInfo.timeout + 10000) // increase the timeout for this test by 10 seconds
     
 })
