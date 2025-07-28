@@ -1,5 +1,4 @@
 import {test, expect} from '@playwright/test';  
-import { timeout } from 'rxjs/operators';
 
 
 test.beforeEach(async ({ page }) => {
@@ -15,8 +14,8 @@ test.describe('Form Layout Tests', () => {
         await page.getByText('Form Layout').click();
     })
 
-   test('email input field',async ({page})=>{
-   timeout(60000) 
+   test('email input field',async ({ page }) => {
+    test.setTimeout(60000) //set timeout to 60 seconds for this test
    const usingGridemailInput= page.locator('nb-card', {hasText:'Using the Grid'}).getByRole('textbox', {name: 'Email'})
 
    await usingGridemailInput.fill('test@test.com')
@@ -31,7 +30,7 @@ test.describe('Form Layout Tests', () => {
 
    //locator assertion
    await expect(usingGridemailInput).toHaveValue('test@test.com')
-   })
+   });
 
 
  test('Radio button',async({page})=>{
