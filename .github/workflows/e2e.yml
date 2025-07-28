@@ -10,10 +10,10 @@ jobs:
 
     steps:
       - name: Checkout Playwright repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout Angular app (public repo)
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: AbhijitKasana/demoAppAngular
           path: pw-practice-app
