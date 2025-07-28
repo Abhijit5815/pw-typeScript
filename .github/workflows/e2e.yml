@@ -16,7 +16,7 @@ jobs:
         with:
           repository: Abhijit5815/demoAppAngular
           path: angular-app
-          token: ${{ secrets.PAT }}  # Needed if repo is private
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Install and start Angular app
       - name: Start Angular app
