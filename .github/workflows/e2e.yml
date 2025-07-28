@@ -25,8 +25,12 @@ jobs:
         run: |
           npm install -g wait-on
           cd angular-app
-          npm start &
-          npx wait-on http://localhost:4200
+          nohup npm start > angular.log 2>&1 &
+          npx wait-on --timeout 180000 http://localhost:4200
+
+      - name: Verify Angular app is running
+        run: |
+          curl -I http://localhost:4200 || (tail -20 angular.log && exit 1)
 
       - name: Install Playwright dependencies
         run: npm ci
@@ -36,3 +40,4 @@ jobs:
 
       - name: Run Playwright tests
         run: npx playwright test
+
