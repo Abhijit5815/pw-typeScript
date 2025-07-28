@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Angular app (public repo)
         uses: actions/checkout@v4
         with:
-          repository: AbhijitKasana/demoAppAngular
+          repository: Abhijit5815/demoAppAngular
           path: pw-practice-app
 
       - name: Install Angular dependencies
