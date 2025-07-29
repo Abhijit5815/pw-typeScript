@@ -29,7 +29,7 @@ export class FormsLayoutPage extends HelperBase {
                 break;
             case FormsLayoutPageLocators.SignInGridButton:
                 //await this.page.pause();
-                await this.page.locator('button..nb-transition',{hasText:'Sign in'}).click();
+                 await this.page.locator('nb-card', { hasText: 'Using the Grid' }).locator('button.nb-transition',{hasText:'Sign in'}).click();
                  await this.waitforNumberoFSeconds(3); // Wait for 3 seconds to ensure the button is clicked
                 break;
             default:

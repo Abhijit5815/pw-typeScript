@@ -1,11 +1,16 @@
 import { expect} from '@playwright/test';
-import { test } from '../../test-options.ts'// Import the custom test with options
+import { test } from '../../test-options'// Import the custom test with options
 
 //()=> arrow function
 test.beforeEach(async ({ page,autowaiturl },testInfo) => {
     //before each test, this will run
-    await page.goto(autowaiturl) //navigate to the autowaiturl defined in playwright.config.ts
-    testInfo.setTimeout(testInfo.timeout + 10000) // increase the timeout for this test by 10 seconds
+    //await page.goto(autowaiturl) //navigate to the autowaiturl defined in playwright.config.ts
+    const url = process.env.URL;
+    if (!url) {
+        throw new Error('Environment variable URL is not defined');
+    }
+    await page.goto(url); // navigate to the URL defined in .env file //this URL can also be passed by CLI command line
+    testInfo.setTimeout(testInfo.timeout + 10000); // increase the timeout for this test by 10 seconds
     
 })
 
