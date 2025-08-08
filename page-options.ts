@@ -10,7 +10,7 @@ export type TestOptions={
 export const test = Base.extend<TestOptions>({
 
     managerPageFixture: [async ({page},use)=>{
-            // Navigate to the home page
+    // Navigate to the home page
     await page.goto('http://localhost:4200/');
     const pm = new PageManager(page);
     await pm.homepage().click(HomePageLocators.Forms);

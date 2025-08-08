@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 //test.describe.parallel('Form Layout Tests', () => {              // run tests in parallel in this suite
-test.describe('Form Layout Tests', () => {
+test.describe('Form Layout Tests', { tag: ['@smoke', '@auth'] }, () => {
 
     test.beforeEach(async ({ page }) => {
         await page.getByText('Forms').click();

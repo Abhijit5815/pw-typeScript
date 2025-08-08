@@ -1,0 +1,2 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","11599","email input field @mobile","mobile","Fri Aug 08 20:58:24 IST 2025","passed","Fri Aug 08 20:58:35 IST 2025","Form Layout Tests","tests\testMobile.spec.ts","",""

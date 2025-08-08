@@ -15,11 +15,4 @@ async waitforNumberoFSeconds(timeInseconds: number): Promise<void> {
     await this.page.waitForTimeout(timeInseconds * 1000); // wait for the specified number of seconds
     }
 
-
-
-
-
-
-
-
 }
