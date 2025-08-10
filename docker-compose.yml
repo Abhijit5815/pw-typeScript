@@ -1,0 +1,37 @@
+#version: '3.8'
+
+services:
+  angular-app:
+    build:
+      context: ./angular-app
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4200"]
+      interval: 15s          # Check every 15 seconds
+      timeout: 30s           # Wait up to 30 seconds for response
+      retries: 5             # Allow more failures
+      start_period: 120s     # Don't count failures for first 120 seconds
+
+  playwright-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run smoke-tests
+    volumes:
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
+    depends_on:
+      angular-app:
+        condition: service_healthy
+    environment:
+      - BASE_URL=http://angular-app:4200
+    networks:
+      - test-network
+
+networks:
+  test-network:
+    driver: bridge
