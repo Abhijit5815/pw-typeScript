@@ -4,7 +4,8 @@ import { PageManager } from '../pageObjects/PageHelper/PageManager';
 import { FormsLayoutPageLocators } from '../pageObjects/Locators/formsLayoutPage.locators';
 import {faker} from '@faker-js/faker';
 
-test.describe('Forms Layout Page Tests', () => {
+//can add tags to specific tests as well and add multiple no of tags
+test.describe('Forms Layout Page Tests @smoke', () => {
 
     //generic retry in config but if you want to retry a specific test you can use this
     //test.retry(2); // This will retry the test 2 times if it fails

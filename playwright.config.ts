@@ -5,7 +5,12 @@ require('dotenv').config(); // Load environment variables from .env file
 //Global configuration for Playwright tests
 export default defineConfig<TestOptions>({
   retries:1,
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    ['json',{outputFile:'test-results/json-Report.json'}],
+    ['junit',{outputFile:'test-results/junit-Report.xml'}],
+    ['allure-playwright']
+  ],
 
   //Global runtime settings
   use: {
@@ -59,6 +64,16 @@ export default defineConfig<TestOptions>({
       testMatch: /.*autoWait\.spec\.ts/, // Run only the autoWait.spec.ts test file 
       use:{
       viewport: { width: 1920, height: 1080 }, // set viewport for this project
+     }
+    },
+        {
+      name:'mobile',
+      testMatch: /.*testMobile\.spec\.ts/, // Run only the autoWait.spec.ts test file 
+      use:{
+      ...devices['iPhone 11'],
+       headless:false,
+       navigationTimeout: 90000, // 60 seconds instead of default 20s
+       actionTimeout: 60000,    // set viewport for this project
      }
     }
 

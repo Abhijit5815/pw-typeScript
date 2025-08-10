@@ -5,3 +5,14 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Angular app (cloned dependency)
+angular-app/
+
+# Test results
+test-results/
+playwright-report/
+
+# Docker
+.env
+
