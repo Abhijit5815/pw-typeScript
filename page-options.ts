@@ -4,17 +4,20 @@ import { PageManager } from '../pw-typeScript/pageObjects/PageHelper/PageManager
 
 
 export type TestOptions={
-    managerPageFixture: PageManager; // Define the type for the fixture
+    managerPageFixture: PageManager; 
+    startNav?: HomePageLocators[];  // Define the type for the fixture
 }
 
 export const test = Base.extend<TestOptions>({
-
-    managerPageFixture: [async ({page},use)=>{
+    startNav: [[], { option: true }],
+    managerPageFixture: [async ({page,startNav},use)=>{
     // Navigate to the home page
-    await page.goto('http://localhost:4200/');
+    await page.goto('/');
     const pm = new PageManager(page);
-    await pm.homepage().click(HomePageLocators.Forms);
-    await pm.homepage().click(HomePageLocators.FormLayout);
+       // Click through the provided navigation path
+    for (const navStep of startNav) {
+      await pm.homepage().click(navStep);
+    }
     // Pass the PageManager instance to the test
     //statements above use are like setup in test
     await use(pm);

@@ -1,88 +1,94 @@
 import { defineConfig, devices } from '@playwright/test';
-import { test, TestOptions } from './test-options'; // Import the custom test with options
+import { test, TestOptions } from './test-options';
 
-require('dotenv').config(); // Load environment variables from .env file
-//Global configuration for Playwright tests
+require('dotenv').config();
+
 export default defineConfig<TestOptions>({
-  retries:1,
+  retries: 1,
   reporter: [
     ['html'],
-    ['json',{outputFile:'test-results/json-Report.json'}],
-    ['junit',{outputFile:'test-results/junit-Report.xml'}],
+    ['json', { outputFile: 'test-results/json-Report.json' }],
+    ['junit', { outputFile: 'test-results/junit-Report.xml' }],
     ['allure-playwright']
   ],
 
-  //Global runtime settings
+  // Global runtime settings
   use: {
-    baseURL: process.env.DEV==='1' ? 'http://localhost:4200'   //For CLI DEV=1 npx playwright test autoWait.spec.ts --project=chromium
-          : process.env.STAGING === '1' ? 'http://staging.example.com' 
-          : 'http://localhost:4200', // Default base URL if neither DEV nor STAGING is set
-    autowaiturl: 'http://uitestingplayground.com/ajax', // Default value for autowaiturl, can be overridden in tests
+    // Docker-aware baseURL with fallback logic
+    baseURL: process.env.BASE_URL || 
+             (process.env.DEV === '1' ? 'http://localhost:4200' 
+             : process.env.STAGING === '1' ? 'http://staging.example.com' 
+             : 'http://localhost:4200'),
+    
+    autowaiturl: 'http://uitestingplayground.com/ajax',
     trace: 'on-first-retry',
-    actionTimeout: 20000, // Set default action timeout to 30 seconds
-    navigationTimeout: 20000, // Set default navigation timeout to 30 seconds
-    video:{
-      mode: 'off', 
-      size: { width: 1920, height: 1080 }, // set video size
+    actionTimeout: 20000,
+    navigationTimeout: 20000,
+    video: {
+      mode: 'off',
+      size: { width: 1920, height: 1080 },
     },
-    screenshot: 'only-on-failure', // take screenshot only on failure
-    //headless: false, // run tests in headful mode
-    viewport: { width: 1280, height: 720 }, // set viewport
+    screenshot: 'only-on-failure',
+    viewport: { width: 1280, height: 720 },
   },
 
-
-  //local section for test options
   projects: [
-
     {
       name: 'Dev',
-      use: {// ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:4200', // Override base URL for this project
-        //video: { mode: 'retain-on-failure' }, // record video only for failed tests
-        //screenshot: { mode: 'only-on-failure' }, // take screenshot only on failure
-        //headless: false, // run tests in headful mode
-        //viewport: { width: 1280, height: 720 }, // set viewport
-        //ignoreHTTPSErrors: true, // ignore HTTPS errors
-        //locale: 'en-US', // set locale
-        //timezoneId: 'America/New_York', // set timezone
-       },
+      use: {
+        baseURL: 'http://localhost:4200',
+      },
     },
     {
       name: 'chromium',
-     // use: { ...devices['Desktop Chrome'] },  //as chromium is the default browser, this can be omitted
-      //fullyParallel: true, // run tests in parallel in this project only
+      use: { 
+        ...devices['Desktop Chrome'],
+        // Will inherit the global baseURL (Docker-aware)
+      },
     },
-
     {
       name: 'firefox',
       use: {
-         browserName:'firefox' 
-        },
+        browserName: 'firefox',
+        // Will inherit the global baseURL (Docker-aware)
+      },
+    },
+    // New Docker-specific project
+    {
+      name: 'docker-chrome',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: process.env.BASE_URL || 'http://localhost:4200',
+        // Optimized for Docker container execution
+        actionTimeout: 60000,      // Increased from 30s to 60s
+        navigationTimeout: 60000,  // Increased from 30s to 60s
+      },
     },
     {
-      name:'autoWaitScreen',
-      testMatch: /.*autoWait\.spec\.ts/, // Run only the autoWait.spec.ts test file 
-      use:{
-      viewport: { width: 1920, height: 1080 }, // set viewport for this project
-     }
+      name: 'autoWaitScreen',
+      testMatch: /.*autoWait\.spec\.ts/,
+      use: {
+        viewport: { width: 1920, height: 1080 },
+      }
     },
-        {
-      name:'mobile',
-      testMatch: /.*testMobile\.spec\.ts/, // Run only the autoWait.spec.ts test file 
-      use:{
-      ...devices['iPhone 11'],
-       headless:false,
-       navigationTimeout: 90000, // 60 seconds instead of default 20s
-       actionTimeout: 60000,    // set viewport for this project
-     }
+    {
+      name: 'mobile',
+      testMatch: /.*testMobile\.spec\.ts/,
+      use: {
+        ...devices['iPhone 11'],
+        headless: false,
+        navigationTimeout: 90000,
+        actionTimeout: 60000,
+      }
     }
-
   ],
-
-  /* Run your local dev server before starting the tests */
+    /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',
   //   url: 'http://localhost:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
 });
+
+
+
