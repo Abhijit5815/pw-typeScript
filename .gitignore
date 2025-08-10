@@ -16,3 +16,10 @@ playwright-report/
 # Docker
 .env
 
+# Ignore Allure report results
+allure-results/
+allure-report/
+
+# Ignore Playwright and custom screenshots
+screenshots/
+*.png

@@ -14,7 +14,7 @@ services:
       interval: 15s          # Check every 15 seconds
       timeout: 30s           # Wait up to 30 seconds for response
       retries: 5             # Allow more failures
-      start_period: 120s     # Don't count failures for first 120 seconds
+      start_period: 300s     # Don't count failures for first 120 seconds
 
   playwright-tests:
     build:
@@ -22,8 +22,8 @@ services:
       dockerfile: Dockerfile
     command: npm run smoke-tests
     volumes:
-      - ./playwright-report:/app/playwright-report
-      - ./test-results:/app/test-results
+    - ./playwright-report:/pw-typeScript/playwright-report
+    - ./test-results:/pw-typeScript/test-results
     depends_on:
       angular-app:
         condition: service_healthy

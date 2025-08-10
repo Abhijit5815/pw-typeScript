@@ -1,10 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/package",
   "name": "pw-typescript",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "formslayouttest": "npx playwright test formsLayoutTest.spec.ts --project=chromium",
-    "navigationtest": "npx playwright test formsLayoutTest.spec.ts --project=chromium",
+    "navigationtest": "npx playwright test navigationTest.spec.ts --project=chromium",
     "formsAndNavigationSequential": "npx playwright test formsLayoutTest.spec.ts --project=chromium && npx playwright test navigationTest.spec.ts --project=chromium",
     "formsAndNavigationParallel": "npx playwright test formsLayoutTest.spec.ts --project=chromium & npx playwright test navigationTest.spec.ts --project=chromium",
     "setup": "setup.bat",
@@ -15,9 +16,12 @@
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs angular-app",
     "pageObjects-chrome": "npx playwright test --project=chromium",
-    "smoke-tests": "npx playwright test tests/formsLayoutTest.spec.ts --grep @smoke --project=chromium",
+    "smoke-tests": "npx playwright test tests/formsLayoutTest.spec.ts --grep @smoke --project=docker-chrome",
+    "smoke-tests-local": "npx playwright test tests/formsLayoutTest.spec.ts --grep @smoke --project=chromium",
     "docker:smoke-test": "docker-compose run --rm playwright-tests npm run smoke-tests",
-    "docker:smoke-and-cleanup": "docker-compose up -d angular-app && docker-compose run --rm playwright-tests npm run smoke-tests && docker-compose down"
+    "docker:smoke-and-cleanup": "docker-compose up -d angular-app && docker-compose run --rm playwright-tests npm run smoke-tests && docker-compose down",
+    "docker:all-tests": "docker-compose run --rm playwright-tests npm run pageObjects-chrome",
+    "docker:firefox-tests": "docker-compose run --rm playwright-tests npx playwright test --project=firefox"
   },
   "keywords": [],
   "author": "",

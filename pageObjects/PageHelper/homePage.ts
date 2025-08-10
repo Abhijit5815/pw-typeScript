@@ -11,6 +11,7 @@ export class HomePage extends HelperBase{
         super(page); // assign the page to the readonly property   
     }
 
+
     async click(key: HomePageLocators): Promise<void> {
         switch (key) {
             case HomePageLocators.Forms:
@@ -28,6 +29,7 @@ export class HomePage extends HelperBase{
         }
     }
 
+ 
     async setThemeDropdown(key: HomePageLocators): Promise<void> {
 
         let themeDropdown = this.page.locator('nb-select[ng-reflect-selected="default"]');

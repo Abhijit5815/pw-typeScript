@@ -3,24 +3,21 @@ import { HomePageLocators } from '../pageObjects/Locators/homePage.locators';
 import { PageManager } from '../pageObjects/PageHelper/PageManager';
 import { FormsLayoutPageLocators } from '../pageObjects/Locators/formsLayoutPage.locators';
 import {faker} from '@faker-js/faker';
+import { ToastrPageLocators } from '../pageObjects/Locators/toastrPage.locator';
 
 test.use({
-  startNav: [HomePageLocators.Forms, HomePageLocators.FormLayout]
+  startNav: [HomePageLocators.ModalAndOverlays, HomePageLocators.Toastr]
 });
 
-//can add tags to specific tests as well and add multiple no of tags
-test.describe('Forms Layout Page Tests @smoke', () => {
+test.describe('Toaster Page Tests ', () => {
 
-    //generic retry in config but if you want to retry a specific test you can use this
-    //test.retry(2); // This will retry the test 2 times if it fails
-    // but for suite level retry you can use 
     test.describe.configure({ retries: 0 }); // This will retry all tests in this suite 2 times if they fail
 
-    test('set theme', async ({ managerPageFixture }) => {
-        await managerPageFixture.homepage().setThemeDropdown(HomePageLocators.DarkTheme);
+    test('set toast type', async ({ managerPageFixture }) => {
+        await managerPageFixture.toastrpage().setDropdown(ToastrPageLocators.DANGER);
          
     })
-//no need to use managerPageFixture here as we are setting it to auto true in page-options.ts
+    //no need to use managerPageFixture here as we are setting it to auto true in page-options.ts
     test('Fill using the rid form', async ({ managerPageFixture},testInfo) => {
        
        if(testInfo.retry){

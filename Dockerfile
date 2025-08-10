@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/playwright:v1.40.0-focal
 
-WORKDIR /app
+# Set working directory to match your local path structure
+WORKDIR /pw-typeScript
 
 # Copy package files
 COPY package.json package*.json ./
