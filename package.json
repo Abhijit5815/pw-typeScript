@@ -36,6 +36,7 @@
     "allure-playwright": "^3.3.3"
   },
   "dependencies": {
-    "dotenv": "^17.2.1"
+    "dotenv": "^17.2.1",
+    "oracledb": "^6.9.0"
   }
 }
