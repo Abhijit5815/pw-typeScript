@@ -14,6 +14,6 @@ export enum ToastrPageLocators {
 
     //CHECKBOX
     HIDE_ON_CLICK ='Hide on click',
-    PREVENT_DUPLICATE_TOAST='Prevent arising on duplicate toast'
-
+    PREVENT_DUPLICATE_TOAST='Prevent arising of duplicate toast',
+    SHOW_TOAST_WITH_ICON='Show toast with icon'
 }
