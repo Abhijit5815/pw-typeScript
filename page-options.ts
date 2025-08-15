@@ -5,7 +5,7 @@ import { PageManager } from '../pw-typeScript/pageObjects/PageHelper/PageManager
 
 export type TestOptions={
     managerPageFixture: PageManager; 
-    startNav?: HomePageLocators[];  // Define the type for the fixture
+    startNav?: HomePageLocators[];  // Define the type for the fixture  option array of type HompageLocators
 }
 
 export const test = Base.extend<TestOptions>({
@@ -26,3 +26,11 @@ export const test = Base.extend<TestOptions>({
     },{auto:true}]   //default value is blank string
     
 });
+
+/*
+{ page, startNav } — Playwright automatically injects the default page fixture and your custom startNav from Step 1.
+
+await use(pm) — The use call hands the constructed PageManager to your test function before the test runs.
+
+{ auto: true } — This means the fixture runs automatically for every test without explicitly including it as a parameter.
+*/ 
