@@ -4,37 +4,40 @@ import { FormsLayoutPage } from "./formsLayoutPage"; //samefolder as PageManager
 import { ToastrPage } from "./toastrPage"; 
 import { FormsLayoutPageLocators } from "../Locators/formsLayoutPage.locators";    
 
-
-
 export class PageManager{
 
-private readonly page: Page;
-private readonly homePage: HomePage;
-private readonly formsLayoutPage: FormsLayoutPage;
-private readonly toastrPage: ToastrPage;
+    private readonly page: Page;
+    private readonly homePage: HomePage;
+    private readonly formsLayoutPage: FormsLayoutPage;
+    private readonly toastrPage: ToastrPage;
 
+    constructor(page: Page) {
+        this.page = page;
+        this.homePage = new HomePage(this.page);
+        this.formsLayoutPage = new FormsLayoutPage(this.page);
+        this.toastrPage = new ToastrPage(this.page);
+        /* 
+        Takes a Playwright Page as input (the browser tab/session you are testing).
+        Instantiates HomePage, FormsLayoutPage, and ToastrPage with the same Playwright page instance.
+        Stores these as private properties.
+        */
+    }
 
-constructor(page: Page) {
+    /*
+    Getter methods for your page objects.
+    */ 
+    homepage() {
+        this.page.bringToFront(); // ← Add this line
+        return this.homePage;   
+    }
 
-    this.page = page;
-    this.homePage = new HomePage(this.page);
-    this.formsLayoutPage = new FormsLayoutPage(this.page);
-    this.toastrPage = new ToastrPage(this.page);
+    formslayoutpage() {
+        this.page.bringToFront(); // ← Add this line
+        return this.formsLayoutPage;
+    }
 
-
-}
-
-homepage() {
-    return this.homePage;   
-}
-
-formslayoutpage() {
-    return this.formsLayoutPage;
-}
-
-toastrpage() {
-    return this.toastrPage;
-}
-
-
+    toastrpage() {
+        this.page.bringToFront(); // ← Add this line
+        return this.toastrPage;
+    }
 }
