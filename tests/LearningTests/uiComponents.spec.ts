@@ -241,4 +241,19 @@ test.describe('Smart table', () => {
 
 
     })
+
+    test('Smart Table @Text', async ({ page }) => {
+
+   
+       const row= page.getByRole('table').locator('tr.table-row-0');
+       //const firstName=await row.locator('td').nth(2).locator('div.ng-star-inserted').innerText();
+       const firstName=await row.locator('td').nth(2).innerText();
+       console.log(firstName);
+
+       //page.locator('tr.table-row-0 td:nth-child(2)') 
+    
+
+    })
+
+
 })
