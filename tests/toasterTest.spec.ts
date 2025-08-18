@@ -1,4 +1,4 @@
-import { test } from '../page-options';
+import { test } from '../fixtures/page-options';
 import { HomePageLocators } from '../pageObjects/Locators/homePage.locators';
 import { PageManager } from '../pageObjects/PageHelper/PageManager';
 import { FormsLayoutPageLocators } from '../pageObjects/Locators/formsLayoutPage.locators';
