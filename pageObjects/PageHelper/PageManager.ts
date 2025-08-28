@@ -2,7 +2,7 @@ import { Page } from "@playwright/test";
 import { HomePage } from "./homePage";  //samefolder as PageManager.ts
 import { FormsLayoutPage } from "./formsLayoutPage"; //samefolder as PageManager.ts
 import { ToastrPage } from "./toastrPage"; 
-import { FormsLayoutPageLocators } from "../Locators/formsLayoutPage.locators";    
+import {SmartTablePage}  from "./smartTablePage"
 
 export class PageManager{
 
@@ -10,12 +10,14 @@ export class PageManager{
     private readonly homePage: HomePage;
     private readonly formsLayoutPage: FormsLayoutPage;
     private readonly toastrPage: ToastrPage;
+    private readonly smartTablePage: SmartTablePage;
 
     constructor(page: Page) {
         this.page = page;
         this.homePage = new HomePage(this.page);
         this.formsLayoutPage = new FormsLayoutPage(this.page);
         this.toastrPage = new ToastrPage(this.page);
+        this.smartTablePage=new SmartTablePage(this.page);
         /* 
         Takes a Playwright Page as input (the browser tab/session you are testing).
         Instantiates HomePage, FormsLayoutPage, and ToastrPage with the same Playwright page instance.
@@ -39,5 +41,10 @@ export class PageManager{
     toastrpage() {
         this.page.bringToFront(); // ← Add this line
         return this.toastrPage;
+    }
+
+    smartTablepage() {
+        this.page.bringToFront(); // ← Add this line
+        return this.smartTablePage;
     }
 }

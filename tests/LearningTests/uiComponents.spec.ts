@@ -122,15 +122,17 @@ test.describe('Modals and overlays', () => {
 
         const optionsList = page.locator('nb-option-list nb-option')  //gets the list of options in the dropdown
         //verify all items in the dropdown
+        const optionsCount=optionsList.count();
+        console.log(`Total options in the dropdown: ${optionsCount}`);
         expect(optionsList).toHaveCount(4) //assert that there are 4 options in the dropdown
         await expect(optionsList).toHaveText(['Light', 'Dark', 'Cosmic', 'Corporate']) //assert that the options are as expected array of strings
         await optionsList.filter({ hasText: 'Cosmic' }).click()
-
+        await  optionsList.last().click() //click the last option in the list
         await expect(page.locator('nb-layout-header')).toHaveCSS('background-color', 'rgb(50, 50, 89)') //assert that the background color of the header is cosmic theme color
 
         //say verify all colors in the dropdown
 
-        //array of colors having key as theme name and value as color
+        // colors  object having key as theme name and value as color
         const colors = {
             "Light": 'rgb(255, 255, 255)',
             "Dark": 'rgb(34, 43, 69)',

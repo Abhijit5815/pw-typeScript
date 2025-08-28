@@ -16,16 +16,18 @@ export class HomePage extends HelperBase{
         switch (key) {
             case HomePageLocators.Forms:
             case HomePageLocators.ModalAndOverlays:
+            case HomePageLocators.TablesAndData:    
                 await this.selectNavMenuPageItem(key);
                 break;
             case HomePageLocators.FormLayout:
             case HomePageLocators.Datepicker:
             case HomePageLocators.Toastr:
             case HomePageLocators.Tooltip:
+            case HomePageLocators.SmartTable:    
                 await this.page.getByText(key).click();
                 break;
             default:
-                throw new Error(`Unhandled locator key: ${key}`);
+                throw new Error(`Unhandled locator key in HomePage class Click: ${key}`);
         }
     }
 
