@@ -1,4 +1,4 @@
-import { test } from '../page-options';
+import { test } from '../fixtures/page-options';
 import { HomePageLocators } from '../pageObjects/Locators/homePage.locators';
 import { PageManager } from '../pageObjects/PageHelper/PageManager';
 import { FormsLayoutPageLocators } from '../pageObjects/Locators/formsLayoutPage.locators';
@@ -21,14 +21,14 @@ test.describe('Forms Layout Page Tests @smoke', () => {
          
     })
 //no need to use managerPageFixture here as we are setting it to auto true in page-options.ts
-    test('Fill using the rid form', async ({ managerPageFixture},testInfo) => {
+    test('Fill using the rid form', async ({ managerPageFixture,logger},testInfo) => {
        
        if(testInfo.retry){
         console.log(`Test is being retried: ${testInfo.retry}`);  
        }
         const fullname = faker.person.fullName();
         const email = `${fullname.replace(/ /g,'')}${faker.number.int(100)}@emailcom`
-        
+        logger.info(`First name in row 0 = ${fullname}`);
         await managerPageFixture.formslayoutpage().setText(FormsLayoutPageLocators.Email, email);
         await managerPageFixture.formslayoutpage().setText(FormsLayoutPageLocators.Password, 'TestPassword');
         await managerPageFixture.formslayoutpage().click(FormsLayoutPageLocators.SignInGridButton); // Click on the radio button

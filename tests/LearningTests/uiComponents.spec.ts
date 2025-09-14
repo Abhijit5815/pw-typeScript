@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 //test.describe.configure({ mode: 'parallel' }) // run tests in parallel, all tests in this spec file will run in parallel
 //test.describe.configure({ mode: 'parallel', retries: 2 }) // run tests in parallel, all tests in this spec file will run in parallel and retry failed tests 2 times
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page}) => {
     //before each test, this will run
     await page.goto('/') //navigate to the base URL defined in playwright.config.ts
 
@@ -122,15 +122,17 @@ test.describe('Modals and overlays', () => {
 
         const optionsList = page.locator('nb-option-list nb-option')  //gets the list of options in the dropdown
         //verify all items in the dropdown
+        const optionsCount=optionsList.count();
+        console.log(`Total options in the dropdown: ${optionsCount}`);
         expect(optionsList).toHaveCount(4) //assert that there are 4 options in the dropdown
         await expect(optionsList).toHaveText(['Light', 'Dark', 'Cosmic', 'Corporate']) //assert that the options are as expected array of strings
         await optionsList.filter({ hasText: 'Cosmic' }).click()
-
+        await  optionsList.last().click() //click the last option in the list
         await expect(page.locator('nb-layout-header')).toHaveCSS('background-color', 'rgb(50, 50, 89)') //assert that the background color of the header is cosmic theme color
 
         //say verify all colors in the dropdown
 
-        //array of colors having key as theme name and value as color
+        // colors  object having key as theme name and value as color
         const colors = {
             "Light": 'rgb(255, 255, 255)',
             "Dark": 'rgb(34, 43, 69)',
@@ -168,14 +170,14 @@ test.describe('Tooltips', () => {
     test('Tooltip on button', async ({ page }) => {
         const tooltipButton = page.locator('nb-card', { hasText: "Tooltip Placements" }).getByRole('button', { name: 'Top' }) //screenshot of the button;
         await tooltipButton.hover(); //hover over the button to show the tooltip
-        tooltipButton.screenshot({path:'screenshots/tooltip.png'})  //take screenshot of the locator itself
+        tooltipButton.screenshot({ path: 'screenshots/tooltip.png' })  //take screenshot of the locator itself
         //assert that the tooltip is visible
         const tooltip = page.locator('nb-tooltip');
         await expect(tooltip).toBeVisible();
-        const ss=await page.screenshot({ path: 'screenshots/tooltipPage.png' }); //take screenshot of the page where tooltip is 
+        const ss = await page.screenshot({ path: 'screenshots/tooltipPage.png' }); //take screenshot of the page where tooltip is 
 
         //convert screenshot to base64 inorder to save it in the database or send it somewhere like email teams slack
-        const buffer=ss.toString('base64'); //convert buffer to base64 string
+        const buffer = ss.toString('base64'); //convert buffer to base64 string
         //console.log(buffer); //log the base64 string to console
 
         const tooltiptext = await tooltip.textContent();
@@ -193,7 +195,67 @@ test.describe('Tooltips', () => {
         */
     })
 
+})
 
+
+
+test.describe('Smart table', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.getByText('Tables & Data').click();
+        await page.getByText('Smart Table').click();
+    })
+
+    test('browser dialog box @dialog', async ({ page }) => {
+
+        /*One time approach using promise create a promise that will resolve when  the next dialog appear
+          One time listener only- handles the very next dialogue only
+        
+        const dialogPromise = page.waitForEvent('dialog');
+        await page.getByRole('table').locator('tr', {hasText:'@fat'}).locator('i.nb-trash').click();
+        const dialog = await dialogPromise;
+        expect(dialog.message()).toEqual('Are you sure you want to delete');
+        await dialog.accept();
+        */
+
+        // ✅ Correct - start listening and trigger simultaneously
+        const [dialog] = await Promise.all([
+            page.waitForEvent('dialog'),
+            page.getByRole('table').locator('tr', { hasText: '@twitter' }).locator('i.nb-trash').click()
+        ]);
+
+        expect(dialog.message()).toEqual('Are you sure you want to delete?');
+        await dialog.accept();
+
+
+        /*
+         Event listener setup: page.on('dialog') registers a persistent event listener that will fire automatically whenever any dialog appears on this page
+         Listener stays active: This listener remains active for the entire lifecycle of the page - it will handle all future dialogs, not just the next one
+         Automatic triggering: When the click happens and a dialog appears, the listener fires immediately and synchronously
+         Handler must act: The listener must call either dialog.accept() or dialog.dismiss() - otherwise the page will freeze
+         */
+        page.on('dialog', dialog => {
+            expect(dialog.message()).toEqual('Are you sure you want to delete?');
+            dialog.accept();
+        })
+        await page.getByRole('table').locator('tr', { hasText: '@snow' }).locator('i.nb-trash').click();
+
+
+
+    })
+
+    test('Smart Table @Text', async ({ page }) => {
+
+   
+       const row= page.getByRole('table').locator('tr.table-row-0');
+       //const firstName=await row.locator('td').nth(2).locator('div.ng-star-inserted').innerText();
+       const firstName=await row.locator('td').nth(2).innerText();
+       console.log(firstName);
+
+       //page.locator('tr.table-row-0 td:nth-child(2)') 
+    
+
+    })
 
 
 })

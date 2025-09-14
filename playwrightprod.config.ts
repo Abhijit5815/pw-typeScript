@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+/*import { defineConfig, devices } from '@playwright/test';
 import { test, TestOptions } from './test-options'; // Import the custom test with options
 
 require('dotenv').config(); 
@@ -32,3 +32,4 @@ export default defineConfig<TestOptions>({
   ],
 
 });
+*/

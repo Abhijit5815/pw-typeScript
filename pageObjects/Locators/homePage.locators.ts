@@ -5,6 +5,9 @@ export enum HomePageLocators {
     Toastr = 'Toastr',
     Tooltip = 'Tooltip',
     ModalAndOverlays = 'Modal & Overlays',
+    TablesAndData='Tables & Data',
+    SmartTable = 'Smart Table',
+
 
     //Theme Dropdown
     LightTheme = 'Light',

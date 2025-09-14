@@ -29,7 +29,9 @@ export default defineConfig<TestOptions>({
       size: { width: 1920, height: 1080 },
     },
     screenshot: 'only-on-failure',
-    viewport: { width: 1280, height: 720 },
+    viewport: { width: 1980, height: 1020 }
+    //viewport: null,
+    
   },
 
   projects: [
@@ -44,6 +46,7 @@ export default defineConfig<TestOptions>({
       use: { 
         ...devices['Desktop Chrome'],
         // Will inherit the global baseURL (Docker-aware)
+        viewport: { width: 1980, height: 1020 }
       },
     },
     {

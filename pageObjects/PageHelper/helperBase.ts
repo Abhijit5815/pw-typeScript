@@ -25,4 +25,8 @@ static async waitForVisible(locator: Locator, timeoutInSeconds: number = 5): Pro
   });
 }
 
+static log(step: string) {
+  console.log(`[TEST LOG] ${step}`);
+}
+
 }
