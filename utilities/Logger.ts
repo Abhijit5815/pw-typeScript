@@ -2,9 +2,9 @@
 // Lightweight, dependency-free logger for Playwright + TypeScript.
 // Usage: const log = new Logger('MySuite', 'debug');  log.info('message');
 
-export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+const LEVELS = ['debug', 'info', 'warn', 'error'] as const;
+export type LogLevel = typeof LEVELS[number];
 
-const LEVELS: LogLevel[] = ['debug', 'info', 'warn', 'error'];
 const COLORS: Record<LogLevel, string> = {
   debug: '\x1b[36m', // cyan
   info : '\x1b[32m', // green

@@ -44,4 +44,8 @@ export const test = Base.extend<TestOptions>({
   }, { auto: true }],
 });
 
+//// In a test file, you can import everything from one place:
+//import { test, expect } from '../fixtures/page-options';  // ← Both from same module
+
 export { expect } from '@playwright/test';
+

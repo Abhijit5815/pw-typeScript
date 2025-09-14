@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 //test.describe.configure({ mode: 'parallel' }) // run tests in parallel, all tests in this spec file will run in parallel
 //test.describe.configure({ mode: 'parallel', retries: 2 }) // run tests in parallel, all tests in this spec file will run in parallel and retry failed tests 2 times
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page}) => {
     //before each test, this will run
     await page.goto('/') //navigate to the base URL defined in playwright.config.ts
 
