@@ -244,7 +244,7 @@ test.describe('Smart table', () => {
 
 
     })
-
+})
     test('Smart Table @Text', async ({ page }) => {
 
    
@@ -258,5 +258,55 @@ test.describe('Smart table', () => {
 
     })
 
+    test.describe('Date Picker', () => {
 
-})
+        test.beforeEach(async({page})=>{
+            await page.getByText('Forms').click();
+            await page.getByText('Datepicker').click();
+        })
+
+        test('Common Datepicker',async({page})=>{
+            const datepickerInput=page.getByPlaceholder('Form Picker',{exact:true});
+            await datepickerInput.click();
+
+            //month and year selector
+            //select year first
+            const dropdownYear=page.locator('nb-calendar-view-mode[ng-reflect-view-mode="date"]');
+            await dropdownYear.click();
+
+            const yearToSelect='2025';
+            await page.locator('nb-calendar-year-cell').filter({hasText:yearToSelect}).click();
+            //select month
+            const monthToSelect='Oct';
+            await page.locator('nb-calendar-month-cell').filter({hasText:monthToSelect}).click();
+
+            //select date
+            const dateToSelect='15';
+            await page.locator('nb-calendar-day-cell:not(.bounding-month)').filter({hasText:dateToSelect}).click();
+
+            expect(await datepickerInput.inputValue()).toBe(`${monthToSelect} ${dateToSelect}, ${yearToSelect}`) //assert that the date is selected correctly;
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    })
+
