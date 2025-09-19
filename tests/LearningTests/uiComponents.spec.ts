@@ -141,9 +141,10 @@ test.describe('Modals and overlays', () => {
         }
 
         for (const col in colors) {
+            const key = col as keyof typeof colors;
             await dropdownmenu.click()
             await optionsList.filter({ hasText: col }).click()
-            await expect(page.locator('nb-layout-header')).toHaveCSS('background-color', colors[col])
+            await expect(page.locator('nb-layout-header')).toHaveCSS('background-color', colors[key])
         }
 
 
