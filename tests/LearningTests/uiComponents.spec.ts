@@ -285,6 +285,7 @@ test.describe('Smart table', () => {
             await page.locator('nb-calendar-day-cell:not(.bounding-month)').filter({hasText:dateToSelect}).click();
 
             expect(await datepickerInput.inputValue()).toBe(`${monthToSelect} ${dateToSelect}, ${yearToSelect}`) //assert that the date is selected correctly;
+            expect(await datepickerInput.inputValue()).toEqual(`${monthToSelect} ${dateToSelect}, ${yearToSelect}`) 
         })
 
 
