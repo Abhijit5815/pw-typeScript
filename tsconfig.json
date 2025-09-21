@@ -1,4 +1,7 @@
 {
   "compileOnSave": true,
-  "compilerOptions.resolveJsonModule": true
+  "compilerOptions":{
+    "resolveJsonModule": true,
+    "strict": true
+  }
 }
